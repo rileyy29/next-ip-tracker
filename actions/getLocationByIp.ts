@@ -8,7 +8,7 @@ export default async function getLocationByIp(ipAddress: string) {
     }
 
     try {
-        const res = await axios.get(`http://ip-api.com/json/${ipAddress}`);
+        const res = await axios.get(`https://ipapi.co/${ipAddress}/json`);
         return res.data;
     } catch (error) {
         console.error("Error occurred while fetching data.", error);

@@ -1,22 +1,22 @@
 import getLocationByIp from "@/actions/getLocationByIp";
-import { Fragment, useEffect, useState } from "react";
+import moment from "moment";
+import { useEffect, useState } from "react";
 import AddressMap from "./AddressMap";
 import MomentClock from "./MomentClock";
 import Spinner from "./Spinner";
-import moment from "moment";
 
 type LocationResponse = {
-    country: string;
-    regionName: string;
+    country_name: string;
+    region: string;
     city: string;
-    zip: string;
-    lat: number;
-    lon: number;
+    postal: string;
+    latitude: number;
+    longitude: number;
     timezone: string;
-    isp: string;
     org: string;
-    as: string;
-    query: string;
+    asn: string;
+    ip: string;
+    network: string;
 }
 
 export default function AddressForm({ address }: { address: string; }) {
@@ -37,25 +37,25 @@ export default function AddressForm({ address }: { address: string; }) {
                     <div className={"flex flex-col min-w-0 gap-5"}>
                         <div className={"flex flex-col justify-between md:flex-row"}>
                             <div>
-                                <div>Country: {location.country}</div>
-                                <div>Region: {location.regionName}</div>
+                                <div>Country: {location.country_name}</div>
+                                <div>Region: {location.region}</div>
                                 <div>City: {location.city}</div>
-                                <div>ZIP: {location.zip}</div>
-                                <div>Lon / Lat: {location.lon} / {location.lat}</div>
+                                <div>Postal: {location.postal}</div>
+                                <div>Lon, Lat: {location.longitude}, {location.latitude}</div>
                                 <div>Timezone: {location.timezone}</div>
                                 <div><MomentClock timezone={location.timezone} /></div>
                             </div>
                             <div className={"w-70 h-60 min-w-0 bg-red-50 md:w-80"}>
-                                <AddressMap coordinates={[location.lon!, location.lat!]} />
+                                <AddressMap coordinates={[location.longitude!, location.latitude!]} />
                             </div>
                         </div>
-                        {!location?.isp ? null :
+                        {!location?.org ? null :
                             <div>
-                                <div>ISP: {location.isp} {location?.org ? `(${location?.org})` : null}</div>
-                                <span>[{location?.as}]</span>
+                                <div>ISP: {location?.org} - {location.network}</div>
+                                <span>[{location?.asn}]</span>
                             </div>}
                     </div>
-                    <div className={"text-xs text-end"}>Queried {location.query} on {moment(new Date()).format("DD/MM HH:mm")}</div>
+                    <div className={"text-xs text-end"}>Queried {location.ip} on {moment(new Date()).format("DD/MM HH:mm")}</div>
                 </div>}
         </div>
     )
